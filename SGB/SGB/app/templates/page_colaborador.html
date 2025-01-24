@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <!-- Meta tags Obrigatórias -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/cadastrar_bem.css' %}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+  <title>Page Colaborador</title>
+</head>
+<body>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card justify-content-center mx-4 border-5 shadow rounded overflow-hidden">
+        <div class="card-body p-5 p-sm-3">
+          <h2 class="card-title text-center mb-2 text-primary fs-3">Buscar de Bens</h2>
+          <form method="post" action="{% url 'buscar_bem' %}">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="codigo">Código</label>
+              <input type="text" class="form-control" id="codigo" name="codigo" required>
+            </div>
+            <button type="submit" class="btn btn-primary d-block mx-auto">Buscar</button>
+          </form>
+        </div>
+        <footer class="footer-container">
+          <img src="{% static 'css/img/Frame2SGB.png' %}" style="max-width: 100%;">
+        </footer>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card justify-content-center mx-4 border-5 shadow rounded overflow-hidden">
+        <div class="card-body p-5 p-sm-3">
+          <h2 class="card-title text-center mb-2 text-primary fs-3">Pedido de Transferências</h2>
+          <form id="transfer-form" method="post" action="{% url 'solicitar_alteracao' %}">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="codigo_bem">Código do Bem</label>
+              <input type="text" class="form-control" id="codigo_bem" name="codigo_bem" required>
+            </div>
+            <div class="form-group">
+              <label for="local_atual">Local Atual</label>
+              <input type="text" class="form-control" id="local_utilizacao" name="local_utilizacao" readonly>
+            </div>
+            <div class="form-group">
+              <label for="local_desejado">Local Desejado</label>
+              <input type="text" class="form-control" id="novo_local" name="novo_local" required>
+            </div>
+            <div class="form-group text-center">
+              <button type="submit" class="btn btn-primary">Solicitar</button>
+           </div>
+          </form>
+        </div>
+        <footer class="footer-container">
+          <img src="{% static 'css/img/Frame2SGB.png' %}" style="max-width: 100%;">
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#codigo_bem').on('input', function () {
+      var codigoBem = $(this).val();
+      if (codigoBem !== '') {
+        $.ajax({
+          url: '/info_bem/',  // Ajuste a URL conforme necessário
+          method: 'GET',
+          data: {codigo_bem: codigoBem},
+          success: function (response) {
+            if (response.success) {
+              var localAtual = response.bem.local_utilizacao;
+              var localDesejado = '';  // Defina aqui o valor desejado para o local
+
+              $('#local_utilizacao').val(localAtual);
+              $('#novo_local').val(localDesejado);  // Corrigido o seletor para definir o valor do campo novo_local
+            } else {
+              $('#local_utilizacao').val('');
+              $('#novo_local').val('');  // Corrigido o seletor para limpar o campo novo_local
+            }
+          },
+          error: function () {
+            console.log('Erro ao obter as informações do bem.');
+          }
+        });
+      } else {
+        $('#local_utilizacao').val('');
+        $('#novo_local').val('');
+      }
+    });
+
+    $('#transfer-form').on('submit', function (e) {
+      e.preventDefault();
+      // Aqui você pode adicionar a lógica para enviar o formulário via AJAX ou realizar outras ações necessárias
+      // Certifique-se de ajustar a ação corretamente no atributo "action" do formulário
+      this.submit();
+    });
+  });
+</script>
+</body>
+</html>
+

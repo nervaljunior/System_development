@@ -1,0 +1,18 @@
+body {
+    background: #D3D3D3;
+    background: linear-gradient(to right, #D3D3D3, #D3D3D3);
+  }
+  
+  .card-img-left {
+    width: 40%;
+    background-size: cover;
+  }
+  
+  .btn-login {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+    border: 30px
+  }
+  
+  

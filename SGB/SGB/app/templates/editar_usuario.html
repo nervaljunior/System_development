@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <!-- Meta tags Obrigatórias -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+    
+
+    <title>Editar Cadastro</title>
+
+</head>
+
+<body>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-5 col-xl-10 mx-auto">
+            <div class="card flex-row-reverse my-5 mx-4 border-5 shadow rounded overflow-hidden">
+                <div class="card-img-left d-none d-md-flex">
+                    <img src="{% static 'css/img/FrameSGB.png' %}">
+                </div>
+                <div class="card-body p-5 p-sm-3">
+                    <h2 class="card-title text-center mb-2 text-primary fs-3">Cadastro</h2>
+                    <form name="fomrs-users" id="formUsers" method="POST" action="{% url 'editar_usuario' user.id %}">
+                        {% if msg %}
+                          <div class="alert {{class}}">
+                             {{msg}}
+                         </div> 
+                        {% endif %}
+                      
+                        {% csrf_token %}
+
+                        <div class="form-group mx-3">
+                            <label for="exampleInputname">Nome</label>
+                            <input type="text" id="username" name="username" value="{{ user.username }}" class="form-control" placeholder="Edite seu nome" required>
+                        </div>
+
+                        <div class="form-floating mx-3 mb-3">
+                            <label for="exampleInputEmail1">E-mail</label>
+                            <input type="email" id="email" name="email" value="{{ user.email }}" class="form-control" aria-describedby="emailHelp" placeholder="Insira um email" required>
+                        </div>
+ 
+                        <div class="form-floating mx-3 mb-3">
+                            <label for="floatingPassword">Senha</label>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Nova senha" required>
+                        </div>
+
+                        <div class="form-floating mx-3 mb-3">
+                            <label for="floatingPasswordConfirm">Confimar senha</label>
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Confirmar a senha" required>
+
+                        </div>
+                        <div class="d-grid mb-2 text-center">
+                            <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit" value="Atualizar">
+                                Atualizar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+</html>

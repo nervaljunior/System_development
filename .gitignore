@@ -1,0 +1,15 @@
+# Django specific
+*.log
+*.pot
+*.pyc
+__pycache__/
+
+# If you are using Django migrations
+*.py[cod]
+*.sqlite3
+*.pyo
+*.pyd
+*.pdb
+
+
+*.env
